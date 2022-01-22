@@ -101,7 +101,7 @@ def main():
     print("[Initializer]: Proxy started!")
 
     logger = Logger()
-    logFile = logger.openLogFile()
+    #logFile = logger.openLogFile()
 
     while True:
         time.sleep(0.005)

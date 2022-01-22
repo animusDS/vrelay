@@ -16,7 +16,7 @@ class UnderageGambling(PluginInterface):
 
 	hooks = {PacketTypes.Update, PacketTypes.PlayerText, PacketTypes.Hello, PacketTypes.Text}
 	load = True
-	defaultState = True
+	defaultState = False
 
 	pluginName = "Underage Gambling"
 	debug = False

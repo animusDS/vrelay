@@ -13,7 +13,7 @@ class Panic(PluginInterface):
 
 	hooks = {PacketTypes.PlayerText, PacketTypes.Update, PacketTypes.Hello}
 	load = True
-	defaultState = True
+	defaultState = False
 
 	unsafeDungeons = ['Garden of Chaos', 'Crypt of the Illusionist', 'Trial of the Illusionist']
 

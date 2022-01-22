@@ -11,7 +11,7 @@ class TQ(PluginInterface):
     
 	hooks = {PacketTypes.PlayerText, PacketTypes.Update, PacketTypes.GotoAck, PacketTypes.UseItem}
 	load = True
-	defaultState = True
+	defaultState = False
 
 	teleporting = False
 	listenToAbility = False

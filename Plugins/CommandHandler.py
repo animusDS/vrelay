@@ -10,6 +10,7 @@ from Plugins.PluginInterface import PluginInterface
 from Plugins.Speedy import Speedy
 from Plugins.Swiftness import Swiftness
 from Plugins.TQ import TQ
+from Plugins.UnderageGambling import UnderageGambling
 from valorlib.Packets.Packet import *
 from client import Client
 
@@ -21,7 +22,7 @@ class CommandHandler(PluginInterface):
 
     # add your own plugins / remove the ones you don't have
     plugins = {"an": AutoNexus, "db": DamageBoost, "gm": Godmode, "nb": NoDebuff,
-               "np": NoProjectile, "pn": Panic, "sp": Speedy, "sw": Swiftness, "tq": TQ}
+               "np": NoProjectile, "pn": Panic, "sp": Speedy, "sw": Swiftness, "tq": TQ, "ug": UnderageGambling}
 
     def getAuthor(self) -> str:
         return "animus"

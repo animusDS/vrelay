@@ -25,6 +25,7 @@ class Client:
 		self.remoteHostPort = 2050
 		self.objectID = None
 		self.charID = None
+		self.objectID = None
 		self.clientSendKey = RC4(bytearray.fromhex("BA15DE"))
 		self.clientReceiveKey = RC4(bytearray.fromhex("612a806cac78114ba5013cb531"))
 		self.serverSendKey = RC4(bytearray.fromhex("612a806cac78114ba5013cb531"))
@@ -75,6 +76,7 @@ class Client:
 		self.lasty = 0
 		self.currentx = 0
 		self.currenty = 0
+		self.currentpos = 0
 		# bitfields to represent our conditions
 		self.effect0bits = 0
 		self.effect1bits = 0
@@ -155,6 +157,8 @@ class Client:
 		self.lasty = 0
 		self.currentx = 0
 		self.currenty = 0
+		self.currentpos = 0
+
 		self.latestQuest = None
 
 		self.inventoryModel = [-1 for _ in range(16)]
@@ -163,6 +167,7 @@ class Client:
 		self.maxHP = None
 		self.currentProtection = None
 		self.defense = 0
+		self.objectType = 0
 		self.newTiles = {}
 		self.newObjects = {}
 		self.seenProjectiles = {}
@@ -253,6 +258,14 @@ class Client:
 
 		elif packet.ID == PacketTypes.Move:
 			packet, send = self.routePacket(packet, send, self.onMove)
+
+		elif packet.ID == PacketTypes.GotoAck:
+			packet, send = self.routePacket(packet, send, self.onGotoAck)
+
+		elif packet.ID == PacketTypes.UsePortal:
+			packet, send = self.routePacket(packet, send, self.onUsePortal)	
+
+
 
 		if not send:
 			return
@@ -488,7 +501,7 @@ class Client:
 		p = CreateSuccess()
 		p.read(packet.data)
 		self.objectID = p.objectID
-		self.charID = p.charID	
+		self.charID = p.charID
 
 
 	###################################################
@@ -530,7 +543,18 @@ class Client:
 		self.lasty = self.currenty
 		self.currentx = p.newPosition.x
 		self.currenty = p.newPosition.y
+		self.currentpos = p.newPosition
 		return p, send
+		
+	def onGotoAck(self, packet: Packet, send: bool) -> (GotoAck, bool):
+		p = GotoAck()
+		p.read(packet.data)
+		return p, send	
+
+	def onUsePortal(self, packet: Packet, send: bool) -> (UsePortal, bool):
+		p = UsePortal()
+		p.read(packet.data)
+		return p, send			
 
 	def onAoe(self, packet: Packet, send: bool) -> (Aoe, bool):
 		p = Aoe()
@@ -621,6 +645,9 @@ class Client:
 		for i in p.newObjects:
 
 			if i.objectStatusData.objectID == self.objectID:
+				# Get Client objectType
+				self.objectType = i.objectType
+
 				for j in i.objectStatusData.stats:
 					if j.statType == 0:
 						self.maxHP = j.statValue
@@ -638,7 +665,6 @@ class Client:
 					for k in range(0, 8):
 						if j.statType == 71 + k:
 							self.inventoryModel[k + 8] = self.deserializeItemData(j.strStatValue)
-					
 			obj = ObjectInfo()
 			obj.pos = i.objectStatusData.pos
 			obj.objectType = i.objectType

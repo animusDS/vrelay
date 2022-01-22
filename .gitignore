@@ -1,0 +1,5 @@
+Plugins/DamageBoost.py
+*.pyc
+*/logs/.txt
+*/updater/.bin
+*/updater/.txt

@@ -1,7 +1,7 @@
 from .PluginInterface import PluginInterface
 from valorlib.Packets.Packet import *
 from valorlib.Packets.DataStructures import WorldPosData
-from ConditionEffect import *
+from valorlib.Packets.ConditionEffect import *
 from client import Client, AoEAutoException
 
 import traceback

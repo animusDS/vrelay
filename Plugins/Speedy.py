@@ -1,6 +1,6 @@
 from valorlib.Packets.Packet import *
 from valorlib.Packets.DataStructures import ObjectStatusData, WorldPosData, StatData
-from ConditionEffect import *
+from valorlib.Packets.ConditionEffect import *
 from client import Client
 
 """
